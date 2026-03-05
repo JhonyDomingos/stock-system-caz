@@ -1,34 +1,29 @@
-# Configuration Cloudflare Workers pour NuxtHub Self-Hosted
+# Configuração Cloudflare Workers para Stock System CAZ
 # Documentation: https://hub.nuxt.com/docs/getting-started/deploy#self-hosted
-#
-# Copiez ce fichier vers wrangler.toml et remplacez les valeurs par les vôtres :
-# cp wrangler.toml.example wrangler.toml
 
-name = "stock_system_caz_kv"
-compatibility_date = "2025-07-15"
+name = "stock-system-caz"
+compatibility_date = "2025-03-05"
 compatibility_flags = ["nodejs_compat"]
 
 # Cloudflare Pages
 pages_build_output_dir = ".output/public"
 
 # =============================================================================
-# RESOURCES CLOUDFLARE
+# RECURSOS CLOUDFLARE
 # =============================================================================
 
-# D1 Database - Pour stocker les données (stocks, fournisseurs, etc.)
-# Créez une base avec: npx wrangler d1 create openstock-db
+# D1 Database - Para armazenar dados (produtos, fornecedores, etc.)
 [[d1_databases]]
 binding = "DB"
 database_name = "stock-system-caz-db"
 database_id = "37451a42-6465-427f-8e3d-01b87e0ee226"
 
-# KV Namespace - Pour le cache et les sessions (optionnel)
-# Créez un namespace avec: npx wrangler kv:namespace create openstock_kv
-# [[kv_namespaces]]
-# binding = "KV"
-# id = "50d823274aba42f3b646076b5b72fd3d"
+# KV Namespace - Para cache e sessões
+[[kv_namespaces]]
+binding = "KV"
+id = "50d823274aba42f3b646076b5b72fd3d"
 
-# R2 Bucket - Pour le stockage de fichiers (images produits, documents, etc.)
+# R2 Bucket - Para armazenamento de arquivos (opcional)
 # [[r2_buckets]]
 # binding = "BLOB"
 # bucket_name = "stock-system-caz-files"

@@ -21,7 +21,7 @@ set -e  # Exit on error
 # -----------------------------------------------------------------------------
 PROJECT_NAME="stock-system-caz"
 DB_NAME="stock-system-caz-db"
-KV_NAME="stock_system_caz_kv"
+KV_NAME="stock-system-caz-kv"
 MIGRATIONS_DIR="migrations"
 
 # -----------------------------------------------------------------------------

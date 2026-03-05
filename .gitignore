@@ -3,6 +3,8 @@
 .data
 .nuxt
 .nitro
+.git
+
 .cache
 dist
 
