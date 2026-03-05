@@ -2,15 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-
-  modules: [
-    '@nuxthub/core',
-    '@nuxt/fonts',
-    '@nuxt/icon',
-    '@nuxtjs/tailwindcss',
-    'nuxt-auth-utils',
-    '@pinia/nuxt',
-  ],
+  modules: ["nitro-cloudflare-dev"],
 
   hub: {
     database: true,
@@ -27,4 +19,13 @@ export default defineNuxtConfig({
   pinia: {
     storesDirs: ['./app/stores/**'],
   },
+
+  nitro: {
+    preset: "cloudflare_module",
+
+    cloudflare: {
+      deployConfig: true,
+      nodeCompat: true
+    }
+  }
 });
