@@ -90,7 +90,7 @@ const filteredResults = computed(() => {
   if (products.value) {
     for (const product of products.value) {
       if (
-        product.name.toLowerCase().includes(query) ||
+        product.name.toLowerCase().includes(query) || 
         product.sku?.toLowerCase().includes(query) ||
         product.description?.toLowerCase().includes(query)
       ) {
@@ -203,14 +203,31 @@ onMounted(() => {
   window.addEventListener('keydown', handler, true);
   onUnmounted(() => window.removeEventListener('keydown', handler, true));
 });
+
+// Mobile menu - emit event for parent layout
+function openMobileMenu() {
+  const event = new CustomEvent('toggle-mobile-menu');
+  window.dispatchEvent(event);
+}
 </script>
 
 <template>
   <header
-    class="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-gray-200 bg-white/80 backdrop-blur-md px-6 transition-all"
+    class="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-gray-200 bg-white/80 backdrop-blur-md px-4 lg:px-6 transition-all"
   >
-    <!-- Left side: Breadcrumbs -->
-    <nav class="flex items-center gap-2 text-sm">
+    <!-- Left side: Mobile menu + Breadcrumbs -->
+    <div class="flex items-center gap-2">
+      <!-- Mobile menu button -->
+      <button
+        @click="openMobileMenu"
+        class="lg:hidden flex items-center justify-center h-9 w-9 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-100 active:scale-95 transition-all"
+        aria-label="Open menu"
+      >
+        <Icon name="lucide:menu" class="h-5 w-5" />
+      </button>
+
+      <!-- Breadcrumbs -->
+      <nav class="flex items-center gap-2 text-sm">
       <template v-for="(crumb, index) in breadcrumbs" :key="crumb.href">
         <!-- Separator -->
         <Icon
@@ -233,7 +250,8 @@ onMounted(() => {
           <span>{{ crumb.name }}</span>
         </NuxtLink>
       </template>
-    </nav>
+      </nav>
+    </div>
 
     <!-- Right side: Actions -->
     <div class="flex items-center gap-3">

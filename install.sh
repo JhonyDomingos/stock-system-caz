@@ -19,9 +19,9 @@ set -e  # Exit on error
 # -----------------------------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------------------------
-PROJECT_NAME="openstock-v2"
-DB_NAME="openstock-db"
-KV_NAME="openstock_kv"
+PROJECT_NAME="stock-system-caz"
+DB_NAME="stock-system-caz-db"
+KV_NAME="stock_system_caz_kv"
 MIGRATIONS_DIR="migrations"
 
 # -----------------------------------------------------------------------------
@@ -342,12 +342,12 @@ KV_EXISTS=$(npx wrangler kv:namespace list --json 2>/dev/null | node -e "
 
 if [ "$KV_EXISTS" = "false" ]; then
     echo "Creating KV namespace..."
-    npx wrangler kv:namespace create "$KV_NAME" 2>/dev/null || true
+    npx wrangler kv namespace create "$KV_NAME" 2>/dev/null || true
     sleep 2  # Wait for propagation
 fi
 
 # Get the KV ID
-KV_ID=$(npx wrangler kv:namespace list --json 2>/dev/null | node -e "
+KV_ID=$(npx wrangler kv namespace list --json 2>/dev/null | node -e "
     const data = require('fs').readFileSync(0, 'utf8');
     try {
         const kvs = JSON.parse(data);

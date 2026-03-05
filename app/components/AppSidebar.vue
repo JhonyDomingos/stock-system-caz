@@ -3,6 +3,9 @@ const route = useRoute();
 const router = useRouter();
 const { user, isAdmin, logout } = useAuth();
 
+// Mobile sidebar state
+const isMobileMenuOpen = ref(false);
+
 const navigation = [
   { name: 'Dashboard', href: '/', icon: 'lucide:layout-dashboard' },
   { name: 'Products', href: '/products', icon: 'lucide:package' },
@@ -32,14 +35,45 @@ function isActive(href: string): boolean {
   return route.path.startsWith(href);
 }
 
+function closeMobileMenu() {
+  isMobileMenuOpen.value = false;
+}
+
+function toggleMobileMenu() {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value;
+}
+
+// Close mobile menu on route change
+watch(() => route.path, () => {
+  closeMobileMenu();
+});
+
 async function handleLogout() {
   await logout();
   await router.push('/auth/login');
 }
+
+// Expose toggle function for parent components
+defineExpose({ toggleMobileMenu, isMobileMenuOpen });
 </script>
 
 <template>
-  <aside class="flex w-64 flex-col border-r border-gray-200 bg-white">
+  <!-- Overlay (mobile only) - click to close -->
+  <Transition name="fade">
+    <div
+      v-if="isMobileMenuOpen"
+      @click="closeMobileMenu"
+      class="fixed inset-0 z-30 bg-gray-900/50 backdrop-blur-sm lg:hidden"
+    />
+  </Transition>
+
+  <!-- Sidebar -->
+  <aside
+    class="fixed lg:static inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-gray-200 bg-white transform transition-transform duration-300 ease-in-out lg:transform-none"
+    :class="[
+      isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+    ]"
+  >
     <!-- Header -->
     <div class="flex h-16 items-center gap-3 border-b border-gray-100 px-6">
       <div
@@ -47,15 +81,22 @@ async function handleLogout() {
       >
         <Icon name="lucide:boxes" class="h-5 w-5" />
       </div>
-      <div class="flex flex-col">
+      <div class="flex flex-col flex-1">
         <span class="text-sm font-bold tracking-tight text-gray-900"
-          >OpenStock</span
+          >Stock CAZ</span
         >
         <span
           class="text-[10px] font-medium text-gray-500 uppercase tracking-wider"
           >Inventory</span
         >
       </div>
+      <!-- Close button inside sidebar (mobile only) -->
+      <button
+        @click="closeMobileMenu"
+        class="lg:hidden flex items-center justify-center h-8 w-8 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+      >
+        <Icon name="lucide:x" class="h-5 w-5" />
+      </button>
     </div>
 
     <!-- Navigation -->
@@ -153,3 +194,15 @@ async function handleLogout() {
     </nav>
   </aside>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
