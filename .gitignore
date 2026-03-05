@@ -26,4 +26,4 @@ logs
 !.env.example
 
 # Wrangler local state (D1 database, etc.)
-wrangler.tom
+wrangler.toml
