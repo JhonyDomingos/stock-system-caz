@@ -3,7 +3,7 @@ const { settings } = useSettings();
 
 useHead({
   titleTemplate: (titleChunk) => {
-    return titleChunk ? `${titleChunk} - ${settings.value?.businessName || 'ZOE Stock System'}` : settings.value?.businessName || 'OpenStock';
+    return titleChunk ? `${titleChunk} - ${settings.value?.businessName || 'ZOE Stock System'}` : settings.value?.businessName || 'ZOE Stock System';
   }
 });
 </script>
