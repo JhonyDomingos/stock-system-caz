@@ -47,7 +47,7 @@ Give it a try: [openstock-v2.pages.dev](https://openstock-v2.pages.dev/)
 ## 🚀 Quick Start (Automated)
 
 The easiest way to get started is using the installation script:
-
+ 
 ```bash
 # Clone the repository
 git clone https://github.com/florianjs/openstock.git
