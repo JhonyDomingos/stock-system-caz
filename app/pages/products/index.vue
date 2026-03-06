@@ -1228,6 +1228,7 @@ function getSupplierName(supplierId: string | null | undefined) {
               <UiInput
                 v-model.number="form.costPrice"
                 type="number"
+                step="0.01"
                 label="Cost Price"
                 placeholder="0.00"
                 :icon="currencyIcon"
@@ -1246,6 +1247,7 @@ function getSupplierName(supplierId: string | null | undefined) {
               <UiInput
                 v-model.number="form.sellingPrice"
                 type="number"
+                step="0.01"
                 label="Selling Price"
                 :icon="currencyIcon"
                 class="font-bold"

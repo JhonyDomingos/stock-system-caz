@@ -8,7 +8,7 @@ const isDev = import.meta.dev;
 
 const settings = ref<{
   businessName: string;
-  currency: 'EUR' | 'USD' | 'GBP';
+  currency: 'EUR' | 'USD' | 'GBP' |'BRL';
   defaultMargin: number;
   stockAlerts: {
     lowStock: boolean;
@@ -151,6 +151,7 @@ const ui = {
                   <option value="EUR">Euro (€)</option>
                   <option value="USD">US Dollar ($)</option>
                   <option value="GBP">British Pound (£)</option>
+                  <option value="BRL">Brazilian Real (R$)</option>
                 </select>
               </div>
 

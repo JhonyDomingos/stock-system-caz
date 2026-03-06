@@ -13,7 +13,7 @@ interface ApiSettings {
 // Frontend shape (nested for UI)
 export interface Settings {
   businessName: string;
-  currency: 'EUR' | 'USD' | 'GBP';
+  currency: "EUR" | "USD" | "GBP" | "BRL";
   defaultMargin: number;
   stockAlerts: {
     lowStock: boolean;
@@ -25,8 +25,8 @@ export interface Settings {
 // Transform API response to frontend shape
 function transformFromApi(api: ApiSettings): Settings {
   return {
-    businessName: api.businessName ?? 'OpenStock Inc.',
-    currency: (api.currency as Settings['currency']) ?? 'EUR',
+    businessName: api.businessName ?? "OpenStock Inc.",
+    currency: (api.currency as Settings["currency"]) ?? "EUR",
     defaultMargin: api.defaultMargin ?? 30,
     stockAlerts: {
       lowStock: Boolean(api.lowStockAlert),
@@ -50,8 +50,8 @@ function transformToApi(settings: Settings): Partial<ApiSettings> {
 
 export const useSettings = () => {
   const { data: rawSettings, refresh } = useAsyncData<ApiSettings>(
-    'settings',
-    () => $fetch('/api/settings')
+    "settings",
+    () => $fetch("/api/settings"),
   );
 
   // Transform raw API data to frontend shape
@@ -62,40 +62,44 @@ export const useSettings = () => {
 
   const currencySymbol = computed(() => {
     switch (settings.value?.currency) {
-      case 'EUR':
-        return '€';
-      case 'USD':
-        return '$';
-      case 'GBP':
-        return '£';
+      case "EUR":
+        return "€";
+      case "USD":
+        return "$";
+      case "GBP":
+        return "£";
+      case "BRL":
+        return "R$";
       default:
-        return '€';
+        return "€";
     }
   });
 
   const currencyIcon = computed(() => {
     switch (settings.value?.currency) {
-      case 'EUR':
-        return 'lucide:euro';
-      case 'USD':
-        return 'lucide:dollar-sign';
-      case 'GBP':
-        return 'lucide:pound-sterling';
+      case "EUR":
+        return "lucide:euro";
+      case "USD":
+        return "lucide:dollar-sign";
+      case "GBP":
+        return "lucide:pound-sterling";
+      case "BRL":
+        return "R" + "lucide:dollar-sign";
       default:
-        return 'lucide:euro';
+        return "lucide:euro";
     }
   });
 
   async function updateSettings(newSettings: Settings) {
     try {
-      await $fetch('/api/settings', {
-        method: 'POST',
+      await $fetch("/api/settings", {
+        method: "POST",
         body: transformToApi(newSettings),
       });
       await refresh();
       return true;
     } catch (e) {
-      console.error('Failed to save settings', e);
+      console.error("Failed to save settings", e);
       return false;
     }
   }
