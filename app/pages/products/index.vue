@@ -222,7 +222,7 @@ function generateVariants() {
 
   const optionValues = form.options.map((opt) => opt.values);
   if (optionValues.some((vals) => vals.length === 0)) {
-    toast.error('Incomplete Options', 'Please add values for all options.');
+    toast.error('Opções Incompletas', 'Por favor, adicione valores para todas as opções.');
     return;
   }
 
@@ -254,7 +254,7 @@ function generateVariants() {
 
 async function saveProduct() {
   if (!form.name.trim()) {
-    toast.error('Validation error', 'Product name is required');
+    toast.error('Erro de validação', 'Nome do produto é obrigatório');
     return;
   }
 
@@ -282,28 +282,28 @@ async function saveProduct() {
     await $fetch(url, { method, body: payload });
 
     toast.success(
-      editingProduct.value ? 'Product updated' : 'Product created',
-      `"${form.name}" has been saved.`
+      editingProduct.value ? 'Produto atualizado' : 'Produto criado',
+      `"${form.name}" foi salvo.`
     );
 
     isModalOpen.value = false;
     refresh();
   } catch (error) {
     console.error(error);
-    toast.error('Error', 'Failed to save product.');
+    toast.error('Erro', 'Falha ao salvar produto.');
   } finally {
     isSubmitting.value = false;
   }
 }
 
 async function deleteProduct(product: Product) {
-  if (!confirm(`Delete "${product.name}"?`)) return;
+  if (!confirm(`Excluir "${product.name}"?`)) return;
   try {
     await $fetch(`/api/products/${product.id}`, { method: 'DELETE' });
-    toast.success('Deleted', `"${product.name}" removed.`);
+    toast.success('Excluído', `"${product.name}" removido.`);
     refresh();
   } catch (error) {
-    toast.error('Error', 'Failed to delete product.');
+    toast.error('Erro', 'Falha ao excluir produto.');
   }
 }
 
@@ -314,18 +314,18 @@ function getStockStatus(product: Product & { variants?: ProductVariant[] }) {
   if (stock <= 0) {
     return {
       class: 'text-red-600 bg-red-50 border-red-100',
-      label: 'Out of stock',
+      label: 'Sem estoque',
     };
   }
   if (stockMin && stock <= stockMin) {
     return {
       class: 'text-amber-600 bg-amber-50 border-amber-100',
-      label: 'Low stock',
+      label: 'Estoque baixo',
     };
   }
   return {
     class: 'text-green-600 bg-green-50 border-green-100',
-    label: 'In stock',
+    label: 'Em estoque',
   };
 }
 
@@ -354,18 +354,18 @@ function getVariantStockStatus(variant: ProductVariant) {
   if (stock <= 0) {
     return {
       class: 'text-red-600 bg-red-50 border-red-100',
-      label: 'Out of stock',
+      label: 'Sem estoque',
     };
   }
   if (variant.stockMin && stock <= variant.stockMin) {
     return {
       class: 'text-amber-600 bg-amber-50 border-amber-100',
-      label: 'Low stock',
+      label: 'Estoque baixo',
     };
   }
   return {
     class: 'text-green-600 bg-green-50 border-green-100',
-    label: 'In stock',
+    label: 'Em estoque',
   };
 }
 
@@ -437,12 +437,12 @@ async function saveVariant() {
       }
     );
 
-    toast.success('Variant updated', `"${variantForm.name}" has been saved.`);
+    toast.success('Variante atualizada', `"${variantForm.name}" foi salvo.`);
     isVariantModalOpen.value = false;
     refresh();
   } catch (error) {
     console.error(error);
-    toast.error('Error', 'Failed to save variant.');
+    toast.error('Erro', 'Falha ao salvar variante.');
   } finally {
     isVariantSubmitting.value = false;
   }
@@ -460,15 +460,15 @@ function getSupplierName(supplierId: string | null | undefined) {
     <div class="flex items-end justify-between border-b border-gray-200 pb-4">
       <div>
         <h1 class="text-2xl font-semibold tracking-tight text-gray-900">
-          Products
+          Produtos
         </h1>
         <p class="mt-1 text-sm text-gray-500">
-          Manage your inventory catalog and pricing strategies.
+          Gerencie o seu catálogo de inventário e estratégias de preços.
         </p>
       </div>
       <UiButton @click="openCreateModal">
         <Icon name="lucide:plus" class="mr-2 h-4 w-4" />
-        New Product
+        Novo Produto
       </UiButton>
     </div>
 
@@ -486,7 +486,7 @@ function getSupplierName(supplierId: string | null | undefined) {
               <th
                 class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
               >
-                Product
+                Produto
               </th>
               <th
                 class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
@@ -496,22 +496,22 @@ function getSupplierName(supplierId: string | null | undefined) {
               <th
                 class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
               >
-                Category
+                Categoria
               </th>
               <th
                 class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 text-right"
               >
-                Stock
+                Estoque
               </th>
               <th
                 class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 text-right"
               >
-                Cost
+                Custo
               </th>
               <th
                 class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 text-right"
               >
-                Price
+                Preço
               </th>
               <th
                 class="h-9 px-4 text-xs font-semibold uppercase tracking-wide text-gray-500 w-20"
@@ -529,7 +529,7 @@ function getSupplierName(supplierId: string | null | undefined) {
                     class="h-5 w-5 animate-spin text-gray-900"
                   />
                   <span class="text-xs font-medium text-gray-500 animate-pulse"
-                    >Loading data...</span
+                    >A carregar dados...</span
                   >
                 </div>
               </td>
@@ -548,10 +548,10 @@ function getSupplierName(supplierId: string | null | undefined) {
                     />
                   </div>
                   <h3 class="text-sm font-medium text-gray-900">
-                    Inventory empty
+                    Inventário vazio
                   </h3>
                   <p class="mt-1 text-xs text-gray-500">
-                    Get started by adding your first product.
+                    Comece adicionando o seu primeiro produto.
                   </p>
                 </div>
               </td>
@@ -822,8 +822,8 @@ function getSupplierName(supplierId: string | null | undefined) {
     <!-- Variant Edit Modal -->
     <UiModal
       v-model:open="isVariantModalOpen"
-      title="Edit Variant"
-      :description="`Configure pricing, stock, and supplier for ${variantForm.name}`"
+      title="Editar Variante"
+      :description="`Configure preços, estoque e fornecedor para ${variantForm.name}`"
       size="lg"
     >
       <form id="variant-form" class="space-y-6" @submit.prevent="saveVariant">
@@ -832,14 +832,14 @@ function getSupplierName(supplierId: string | null | undefined) {
           <h3
             class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 border-b border-gray-100 pb-2"
           >
-            Identification
+            Identificação
           </h3>
           <div class="grid grid-cols-12 gap-4">
             <div class="col-span-12">
               <UiInput
                 v-model="variantForm.name"
-                label="Variant Name"
-                placeholder="Ex: Red / XL"
+                label="Nome da Variante"
+                placeholder="Ex: Vermelho / XL"
                 disabled
               />
             </div>
@@ -855,8 +855,8 @@ function getSupplierName(supplierId: string | null | undefined) {
             <div class="col-span-6">
               <UiInput
                 v-model="variantForm.barcode"
-                label="Barcode (EAN)"
-                placeholder="Scan..."
+                label="Código de Barras (EAN)"
+                placeholder="Digitalizar..."
                 icon="lucide:scan-barcode"
               />
             </div>
@@ -868,14 +868,14 @@ function getSupplierName(supplierId: string | null | undefined) {
           <h3
             class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 border-b border-gray-100 pb-2"
           >
-            Financials
+            Financeiro
           </h3>
           <div class="grid grid-cols-12 gap-4">
             <div class="col-span-4">
               <UiInput
                 v-model.number="variantForm.costPrice"
                 type="number"
-                label="Cost Price"
+                label="Preço de Custo"
                 placeholder="0.00"
                 :icon="currencyIcon"
               />
@@ -885,7 +885,7 @@ function getSupplierName(supplierId: string | null | undefined) {
               <UiInput
                 v-model.number="variantForm.marginPercent"
                 type="number"
-                label="Margin (%)"
+                label="Margem (%)"
               />
             </div>
 
@@ -893,7 +893,7 @@ function getSupplierName(supplierId: string | null | undefined) {
               <UiInput
                 v-model.number="variantForm.price"
                 type="number"
-                label="Selling Price"
+                label="Preço de Venda"
                 :icon="currencyIcon"
                 class="font-bold"
               />
@@ -901,7 +901,7 @@ function getSupplierName(supplierId: string | null | undefined) {
 
             <div class="col-span-6">
               <label class="block text-sm font-medium text-gray-700 mb-1.5"
-                >Tax Rate</label
+                >Taxa de Imposto</label
               >
               <select
                 v-model="variantForm.taxId"
@@ -916,13 +916,13 @@ function getSupplierName(supplierId: string | null | undefined) {
 
             <div class="col-span-6">
               <label class="block text-sm font-medium text-gray-700 mb-1.5"
-                >Supplier</label
+                >Fornecedor</label
               >
               <select
                 v-model="variantForm.supplierId"
                 class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm h-9"
               >
-                <option value="">Select supplier...</option>
+                <option value="">Selecionar fornecedor...</option>
                 <option v-for="sup in suppliers" :key="sup.id" :value="sup.id">
                   {{ sup.name }}
                 </option>
@@ -936,7 +936,7 @@ function getSupplierName(supplierId: string | null | undefined) {
           <h3
             class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 border-b border-gray-100 pb-2"
           >
-            Inventory Control
+            Controle de Inventário
           </h3>
           <div
             class="grid grid-cols-12 gap-4 bg-gray-50/50 p-4 rounded-lg border border-gray-200/50"
@@ -945,7 +945,7 @@ function getSupplierName(supplierId: string | null | undefined) {
               <UiInput
                 v-model.number="variantForm.stockQuantity"
                 type="number"
-                label="Current Stock"
+                label="Estoque Atual"
                 placeholder="0"
               />
             </div>
@@ -954,7 +954,7 @@ function getSupplierName(supplierId: string | null | undefined) {
               <UiInput
                 v-model.number="variantForm.stockMin"
                 type="number"
-                label="Low Stock Alert"
+                label="Alerta de Estoque Baixo"
                 placeholder="0"
               />
             </div>
@@ -964,7 +964,7 @@ function getSupplierName(supplierId: string | null | undefined) {
 
       <template #footer>
         <UiButton variant="secondary" @click="isVariantModalOpen = false">
-          Cancel
+          Cancelar
         </UiButton>
 
         <UiButton
@@ -977,15 +977,15 @@ function getSupplierName(supplierId: string | null | undefined) {
             name="lucide:save"
             class="mr-2 h-4 w-4"
           />
-          Save Variant
+          Salvar Variante
         </UiButton>
       </template>
     </UiModal>
 
     <UiModal
       v-model:open="isModalOpen"
-      :title="editingProduct ? 'Edit Product' : 'New Product'"
-      description="Fill in the details below to track this item in your inventory."
+      :title="editingProduct ? 'Editar Produto' : 'Novo Produto'"
+      description="Preencha os detalhes abaixo para rastrear este item no seu inventário."
       size="lg"
     >
       <form id="product-form" class="space-y-6" @submit.prevent="saveProduct">
@@ -993,14 +993,14 @@ function getSupplierName(supplierId: string | null | undefined) {
           <h3
             class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 border-b border-gray-100 pb-2"
           >
-            Identification
+            Identificação
           </h3>
           <div class="grid grid-cols-12 gap-4">
             <div class="col-span-12">
               <UiInput
                 v-model="form.name"
-                label="Product Name"
-                placeholder="Ex: Wireless Mouse M100"
+                label="Nome do Produto"
+                placeholder="Ex: Rato Sem Fios M100"
                 required
               />
             </div>
@@ -1016,22 +1016,22 @@ function getSupplierName(supplierId: string | null | undefined) {
             <div class="col-span-6 sm:col-span-4">
               <UiInput
                 v-model="form.barcode"
-                label="Barcode (EAN)"
-                placeholder="Scan..."
+                label="Código de Barras (EAN)"
+                placeholder="Digitalizar..."
                 icon="lucide:scan-barcode"
               />
             </div>
 
             <div class="col-span-12 sm:col-span-4">
               <label class="block text-sm font-medium text-gray-700 mb-1.5"
-                >Category</label
+                >Categoria</label
               >
               <div class="relative">
                 <select
                   v-model="form.categoryId"
                   class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm h-9"
                 >
-                  <option value="">Uncategorized</option>
+                  <option value="">Sem Categoria</option>
                   <option
                     v-for="cat in categories"
                     :key="cat.id"
@@ -1052,10 +1052,10 @@ function getSupplierName(supplierId: string | null | undefined) {
             <h3
               class="text-xs font-bold text-gray-900 uppercase tracking-wider"
             >
-              Product Variants
+              Variantes do Produto
             </h3>
             <div class="flex items-center gap-2">
-              <span class="text-sm text-gray-600">Has Variants?</span>
+              <span class="text-sm text-gray-600">Tem Variantes?</span>
               <button
                 type="button"
                 class="relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2"
@@ -1074,13 +1074,13 @@ function getSupplierName(supplierId: string | null | undefined) {
             <!-- Options Builder -->
             <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
               <div class="flex justify-between items-center mb-3">
-                <h4 class="text-sm font-medium text-gray-900">Options</h4>
+                <h4 class="text-sm font-medium text-gray-900">Opções</h4>
                 <button
                   type="button"
                   class="text-xs text-primary-600 hover:text-primary-700 font-medium"
                   @click="addOption"
                 >
-                  + Add Option
+                  + Adicionar Opção
                 </button>
               </div>
 
@@ -1094,7 +1094,7 @@ function getSupplierName(supplierId: string | null | undefined) {
                     <input
                       v-model="option.name"
                       type="text"
-                      placeholder="Name (e.g. Color)"
+                      placeholder="Nome (ex: Cor)"
                       class="block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm h-8"
                     />
                   </div>
@@ -1102,7 +1102,7 @@ function getSupplierName(supplierId: string | null | undefined) {
                     <input
                       v-model="option.valuesInput"
                       type="text"
-                      placeholder="Values (comma separated, e.g. Red, Blue)"
+                      placeholder="Valores (separados por vírgula, ex: Vermelho, Azul)"
                       class="block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm h-8"
                       @blur="updateOptionValues(idx)"
                     />
@@ -1119,7 +1119,7 @@ function getSupplierName(supplierId: string | null | undefined) {
                   v-if="form.options.length === 0"
                   class="text-center py-2 text-sm text-gray-500 italic"
                 >
-                  No options added. Click "Add Option" to start.
+                  Nenhuma opção adicionada. Clique em "Adicionar Opção" para começar.
                 </div>
               </div>
 
@@ -1129,7 +1129,7 @@ function getSupplierName(supplierId: string | null | undefined) {
                   class="text-sm bg-white border border-gray-300 text-gray-700 px-3 py-1.5 rounded-md hover:bg-gray-50 shadow-sm"
                   @click="generateVariants"
                 >
-                  Generate Variants
+                  Gerar Variantes
                 </button>
               </div>
             </div>
@@ -1146,19 +1146,19 @@ function getSupplierName(supplierId: string | null | undefined) {
                       scope="col"
                       class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Variant
+                      Variante
                     </th>
                     <th
                       scope="col"
                       class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24"
                     >
-                      Price
+                      Preço
                     </th>
                     <th
                       scope="col"
                       class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24"
                     >
-                      Stock
+                      Estoque
                     </th>
                     <th
                       scope="col"
@@ -1221,7 +1221,7 @@ function getSupplierName(supplierId: string | null | undefined) {
           <h3
             class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 border-b border-gray-100 pb-2"
           >
-            Financials
+            Financeiro
           </h3>
           <div class="grid grid-cols-12 gap-4">
             <div class="col-span-4">
@@ -1229,7 +1229,7 @@ function getSupplierName(supplierId: string | null | undefined) {
                 v-model.number="form.costPrice"
                 type="number"
                 step="0.01"
-                label="Cost Price"
+                label="Preço de Custo"
                 placeholder="0.00"
                 :icon="currencyIcon"
               />
@@ -1239,7 +1239,7 @@ function getSupplierName(supplierId: string | null | undefined) {
               <UiInput
                 v-model.number="form.marginPercent"
                 type="number"
-                label="Margin (%)"
+                label="Margem (%)"
               />
             </div>
 
@@ -1248,7 +1248,7 @@ function getSupplierName(supplierId: string | null | undefined) {
                 v-model.number="form.sellingPrice"
                 type="number"
                 step="0.01"
-                label="Selling Price"
+                label="Preço de Venda"
                 :icon="currencyIcon"
                 class="font-bold"
               />
@@ -1256,7 +1256,7 @@ function getSupplierName(supplierId: string | null | undefined) {
 
             <div class="col-span-6">
               <label class="block text-sm font-medium text-gray-700 mb-1.5"
-                >Tax Rate</label
+                >Taxa de Imposto</label
               >
               <select
                 v-model="form.taxId"
@@ -1271,13 +1271,13 @@ function getSupplierName(supplierId: string | null | undefined) {
 
             <div class="col-span-6">
               <label class="block text-sm font-medium text-gray-700 mb-1.5"
-                >Supplier</label
+                >Fornecedor</label
               >
               <select
                 v-model="form.supplierId"
                 class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm h-9"
               >
-                <option value="">Select supplier...</option>
+                <option value="">Selecionar fornecedor...</option>
                 <option v-for="sup in suppliers" :key="sup.id" :value="sup.id">
                   {{ sup.name }}
                 </option>
@@ -1290,7 +1290,7 @@ function getSupplierName(supplierId: string | null | undefined) {
           <h3
             class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 border-b border-gray-100 pb-2"
           >
-            Inventory Control
+            Controle de Inventário
           </h3>
           <div
             class="grid grid-cols-12 gap-4 bg-gray-50/50 p-4 rounded-lg border border-gray-200/50"
@@ -1299,7 +1299,7 @@ function getSupplierName(supplierId: string | null | undefined) {
               <UiInput
                 v-model.number="form.stockQuantity"
                 type="number"
-                label="Current Stock"
+                label="Estoque Atual"
                 placeholder="0"
               />
             </div>
@@ -1308,22 +1308,22 @@ function getSupplierName(supplierId: string | null | undefined) {
               <UiInput
                 v-model.number="form.stockMin"
                 type="number"
-                label="Low Stock Alert"
+                label="Alerta de Estoque Baixo"
                 placeholder="0"
               />
             </div>
 
             <div class="col-span-4">
               <label class="block text-sm font-medium text-gray-700 mb-1.5"
-                >Unit Type</label
+                >Tipo de Unidade</label
               >
               <select
                 v-model="form.unit"
                 class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm h-9"
               >
-                <option value="unit">Pieces (pcs)</option>
-                <option value="kg">Weight (kg)</option>
-                <option value="m">Length (m)</option>
+                <option value="unit">Peças (pcs)</option>
+                <option value="kg">Peso (kg)</option>
+                <option value="m">Comprimento (m)</option>
                 <option value="l">Volume (L)</option>
               </select>
             </div>
@@ -1333,12 +1333,12 @@ function getSupplierName(supplierId: string | null | undefined) {
 
       <template #footer>
         <UiButton variant="secondary" @click="isModalOpen = false">
-          Cancel
+          Cancelar
         </UiButton>
 
         <UiButton type="submit" form="product-form" :loading="isSubmitting">
           <Icon v-if="!isSubmitting" name="lucide:save" class="mr-2 h-4 w-4" />
-          {{ editingProduct ? 'Save Changes' : 'Create Product' }}
+          {{ editingProduct ? 'Salvar Alterações' : 'Criar Produto' }}
         </UiButton>
       </template>
     </UiModal>

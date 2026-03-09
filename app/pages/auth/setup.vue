@@ -28,22 +28,22 @@ async function handleSubmit() {
   error.value = '';
 
   if (!form.name.trim()) {
-    error.value = 'Name is required';
+    error.value = 'Nome é obrigatório';
     return;
   }
 
   if (!form.email.trim()) {
-    error.value = 'Email is required';
+    error.value = 'Email é obrigatório';
     return;
   }
 
   if (form.password.length < 8) {
-    error.value = 'Password must be at least 8 characters';
+    error.value = 'A palavra-passe deve ter pelo menos 8 caracteres';
     return;
   }
 
   if (form.password !== form.confirmPassword) {
-    error.value = 'Passwords do not match';
+    error.value = 'As palavras-passe não coincidem';
     return;
   }
 
@@ -54,7 +54,7 @@ async function handleSubmit() {
     await router.push('/');
   } catch (e: unknown) {
     const err = e as { data?: { message?: string } };
-    error.value = err.data?.message || 'Failed to create account';
+    error.value = err.data?.message || 'Falha ao criar conta';
   } finally {
     isLoading.value = false;
   }
@@ -71,9 +71,9 @@ async function handleSubmit() {
           >
             <Icon name="lucide:package" class="w-6 h-6 text-primary-600" />
           </div>
-          <h1 class="text-2xl font-bold text-gray-900">Welcome to OpenStock</h1>
+          <h1 class="text-2xl font-bold text-gray-900">Bem-vindo ao OpenStock</h1>
           <p class="text-sm text-gray-500 mt-2">
-            Create your administrator account to get started
+            Crie a sua conta de administrador para começar
           </p>
         </div>
 
@@ -90,8 +90,8 @@ async function handleSubmit() {
 
           <UiInput
             v-model="form.name"
-            label="Full Name"
-            placeholder="John Doe"
+            label="Nome Completo"
+            placeholder="João Silva"
             icon="lucide:user"
             :disabled="isLoading"
           />
@@ -99,8 +99,8 @@ async function handleSubmit() {
           <UiInput
             v-model="form.email"
             type="email"
-            label="Email Address"
-            placeholder="admin@company.com"
+            label="Endereço de Email"
+            placeholder="admin@empresa.com"
             icon="lucide:mail"
             :disabled="isLoading"
           />
@@ -108,7 +108,7 @@ async function handleSubmit() {
           <UiInput
             v-model="form.password"
             type="password"
-            label="Password"
+            label="Palavra-passe"
             placeholder="••••••••"
             icon="lucide:lock"
             :disabled="isLoading"
@@ -117,7 +117,7 @@ async function handleSubmit() {
           <UiInput
             v-model="form.confirmPassword"
             type="password"
-            label="Confirm Password"
+            label="Confirmar Palavra-passe"
             placeholder="••••••••"
             icon="lucide:lock"
             :disabled="isLoading"
@@ -130,13 +130,13 @@ async function handleSubmit() {
             :disabled="isLoading"
           >
             <Icon v-if="!isLoading" name="lucide:rocket" class="w-4 h-4 mr-2" />
-            Create Admin Account
+            Criar Conta de Administrador
           </UiButton>
         </form>
 
         <p class="text-xs text-gray-400 text-center mt-6">
-          This will be the administrator account with full access to all
-          features.
+          Esta será a conta de administrador com acesso total a todas as
+          funcionalidades.
         </p>
       </div>
     </div>

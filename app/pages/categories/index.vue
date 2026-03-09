@@ -39,11 +39,11 @@ const presetColors = [
 
 // Table columns
 const columns = [
-  { key: 'name', label: 'Category' },
-  { key: 'parent', label: 'Parent' },
+  { key: 'name', label: 'Categoria' },
+  { key: 'parent', label: 'Categoria Pai' },
   {
     key: 'products',
-    label: 'Products',
+    label: 'Produtos',
     class: 'text-right',
     headerClass: 'text-right',
   },
@@ -78,7 +78,7 @@ function resetForm() {
 
 async function saveCategory() {
   if (!form.name.trim()) {
-    toast.warning('Please enter a category name');
+    toast.warning('Por favor, insira o nome da categoria');
     return;
   }
 
@@ -89,34 +89,34 @@ async function saveCategory() {
         method: 'PUT',
         body: form,
       });
-      toast.success('Category updated successfully');
+      toast.success('Categoria atualizada');
     } else {
       await $fetch('/api/categories', {
         method: 'POST',
         body: form,
       });
-      toast.success('Category created successfully');
+      toast.success('Categoria criada');
     }
     isModalOpen.value = false;
     refresh();
   } catch (error) {
     console.error('Failed to save category:', error);
-    toast.error('Failed to save category');
+    toast.error('Erro ao salvar categoria');
   } finally {
     isSubmitting.value = false;
   }
 }
 
 async function deleteCategory(id: string, name: string) {
-  if (!confirm(`Are you sure you want to delete "${name}"?`)) return;
+  if (!confirm(`Tem certeza que deseja excluir "${name}"?`)) return;
 
   try {
     await $fetch(`/api/categories/${id}`, { method: 'DELETE' });
-    toast.success('Category deleted successfully');
+    toast.success('Categoria excluída');
     refresh();
   } catch (error) {
     console.error('Failed to delete category:', error);
-    toast.error('Failed to delete category');
+    toast.error('Erro ao excluir categoria');
   }
 }
 
@@ -139,12 +139,12 @@ const topLevelCategories = computed(
     <!-- Header -->
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-lg font-semibold text-gray-900">Categories</h1>
-        <p class="text-xs text-gray-500">Organize products by category</p>
+        <h1 class="text-lg font-semibold text-gray-900">Categorias</h1>
+        <p class="text-xs text-gray-500">Organize os produtos por categoria</p>
       </div>
       <button class="btn-primary" @click="openCreateModal">
         <Icon name="lucide:plus" class="h-3.5 w-3.5" />
-        Add
+        Adicionar
       </button>
     </div>
 
@@ -165,7 +165,7 @@ const topLevelCategories = computed(
         <Icon name="lucide:folder-tree" class="h-3.5 w-3.5 text-gray-400" />
         <span class="text-xs">
           <span class="font-medium font-mono">{{ topLevelCategories }}</span>
-          <span class="text-gray-500"> top level</span>
+          <span class="text-gray-500"> principais</span>
         </span>
       </div>
     </div>
@@ -176,8 +176,8 @@ const topLevelCategories = computed(
         :columns="columns"
         :data="categories || []"
         :loading="pending"
-        empty-title="No categories"
-        empty-description="Create categories to organize products."
+        empty-title="Nenhuma categoria"
+        empty-description="Crie categorias para organizar os produtos."
         empty-icon="lucide:folder-plus"
         hoverable
       >
@@ -247,32 +247,32 @@ const topLevelCategories = computed(
     <!-- Create/Edit Modal -->
     <UiModal
       v-model:open="isModalOpen"
-      :title="editingCategory ? 'Edit Category' : 'New Category'"
+      :title="editingCategory ? 'Editar Categoria' : 'Nova Categoria'"
       size="md"
     >
       <form id="category-form" class="space-y-4" @submit.prevent="saveCategory">
         <div>
-          <label class="label">Name <span class="text-red-500">*</span></label>
+          <label class="label">Nome <span class="text-red-500">*</span></label>
           <UiInput
             v-model="form.name"
-            placeholder="e.g., Electronics"
+            placeholder="ex: Eletrónicos"
             autofocus
           />
         </div>
 
         <div>
-          <label class="label">Description</label>
+          <label class="label">Descrição</label>
           <textarea
             v-model="form.description"
             class="input min-h-[80px] resize-none"
-            placeholder="Brief description..."
+            placeholder="Breve descrição..."
           />
         </div>
 
         <div>
-          <label class="label">Parent Category</label>
+          <label class="label">Categoria Pai</label>
           <select v-model="form.parentId" class="input">
-            <option value="">None (top level)</option>
+            <option value="">Nenhuma (nível principal)</option>
             <option v-for="cat in parentOptions" :key="cat.id" :value="cat.id">
               {{ cat.name }}
             </option>
@@ -280,7 +280,7 @@ const topLevelCategories = computed(
         </div>
 
         <div>
-          <label class="label">Color</label>
+          <label class="label">Cor</label>
           <div class="flex flex-wrap gap-1.5">
             <button
               v-for="color in presetColors"
@@ -313,7 +313,7 @@ const topLevelCategories = computed(
           :disabled="isSubmitting"
           @click="isModalOpen = false"
         >
-          Cancel
+          Cancelar
         </button>
         <button 
           type="submit" 
@@ -326,7 +326,7 @@ const topLevelCategories = computed(
             name="lucide:loader-2"
             class="h-3.5 w-3.5 animate-spin"
           />
-          {{ editingCategory ? 'Update' : 'Create' }}
+          {{ editingCategory ? 'Atualizar' : 'Criar' }}
         </button>
       </template>
     </UiModal>

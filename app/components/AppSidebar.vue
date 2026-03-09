@@ -7,22 +7,22 @@ const { user, isAdmin, logout } = useAuth();
 const isMobileMenuOpen = ref(false);
 
 const navigation = [
-  { name: 'Dashboard', href: '/', icon: 'lucide:layout-dashboard' },
-  { name: 'Products', href: '/products', icon: 'lucide:package' },
-  { name: 'Categories', href: '/categories', icon: 'lucide:folder-tree' },
-  { name: 'Suppliers', href: '/suppliers', icon: 'lucide:truck' },
-  { name: 'Movements', href: '/movements', icon: 'lucide:arrow-left-right' },
+  { name: 'Painel', href: '/', icon: 'lucide:layout-dashboard' },
+  { name: 'Produtos', href: '/products', icon: 'lucide:package' },
+  { name: 'Categorias', href: '/categories', icon: 'lucide:folder-tree' },
+  { name: 'Fornecedores', href: '/suppliers', icon: 'lucide:truck' },
+  { name: 'Movimentações', href: '/movements', icon: 'lucide:arrow-left-right' },
 ];
 
 const secondaryNavigation = computed(() => {
   const items = [
-    { name: 'Taxes', href: '/taxes', icon: 'lucide:percent' },
-    { name: 'Settings', href: '/settings', icon: 'lucide:settings' },
+    { name: 'Impostos', href: '/taxes', icon: 'lucide:percent' },
+    { name: 'Configurações', href: '/settings', icon: 'lucide:settings' },
   ];
 
   // Add Users link for admins only
   if (isAdmin.value) {
-    items.unshift({ name: 'Users', href: '/users', icon: 'lucide:users' });
+    items.unshift({ name: 'Utilizadores', href: '/users', icon: 'lucide:users' });
   }
 
   return items;
@@ -87,7 +87,7 @@ defineExpose({ toggleMobileMenu, isMobileMenuOpen });
         >
         <span
           class="text-[10px] font-medium text-gray-500 uppercase tracking-wider"
-          >Inventory</span
+          >Inventário</span
         >
       </div>
       <!-- Close button inside sidebar (mobile only) -->
@@ -139,7 +139,7 @@ defineExpose({ toggleMobileMenu, isMobileMenuOpen });
         <p
           class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2"
         >
-          System
+          Sistema
         </p>
         <NuxtLink
           v-for="item in secondaryNavigation"
@@ -178,14 +178,14 @@ defineExpose({ toggleMobileMenu, isMobileMenuOpen });
           </div>
           <div class="flex-1 min-w-0">
             <p class="truncate text-sm font-semibold text-gray-900">
-              {{ user?.name || 'User' }}
+              {{ user?.name || 'Utilizador' }}
             </p>
             <p class="truncate text-xs text-gray-500">{{ user?.email }}</p>
           </div>
           <button
             @click="handleLogout"
             class="text-gray-400 hover:text-gray-600 transition-colors"
-            title="Sign out"
+            title="Sair"
           >
             <Icon name="lucide:log-out" class="h-4 w-4" />
           </button>

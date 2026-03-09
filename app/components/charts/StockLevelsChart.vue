@@ -11,9 +11,9 @@ const props = defineProps<{
 
 const statusConfig: Record<string, { label: string; color: string }> = {
   normal: { label: 'Normal', color: '#10B981' },
-  low_stock: { label: 'Low Stock', color: '#F59E0B' },
-  out_of_stock: { label: 'Out of Stock', color: '#EF4444' },
-  overstock: { label: 'Overstock', color: '#3B82F6' },
+  low_stock: { label: 'Estoque Baixo', color: '#F59E0B' },
+  out_of_stock: { label: 'Sem Estoque', color: '#EF4444' },
+  overstock: { label: 'Excesso de Estoque', color: '#3B82F6' },
 };
 
 const sortedData = computed(() => {

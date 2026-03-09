@@ -44,12 +44,12 @@ onUnmounted(() => {
 const breadcrumbs = computed(() => {
   const path = route.path;
   if (path === '/') {
-    return [{ name: 'Dashboard', href: '/', icon: 'lucide:layout-dashboard' }];
+    return [{ name: 'Painel', href: '/', icon: 'lucide:layout-dashboard' }];
   }
 
   const segments = path.split('/').filter(Boolean);
   const crumbs: { name: string; href: string; icon?: string }[] = [
-    { name: 'Dashboard', href: '/', icon: 'lucide:home' },
+    { name: 'Painel', href: '/', icon: 'lucide:home' },
   ];
 
   let currentPath = '';
@@ -302,13 +302,13 @@ function openMobileMenu() {
             <div
               class="flex items-center justify-between border-b border-gray-100 px-4 py-3"
             >
-              <h3 class="font-semibold text-gray-900">Notifications</h3>
+              <h3 class="font-semibold text-gray-900">Notificações</h3>
               <button
                 v-if="unreadCount > 0"
                 class="text-xs text-primary-600 hover:text-primary-700 font-medium"
                 @click="markAllAsRead"
               >
-                Mark all as read
+                Marcar todas como lidas
               </button>
             </div>
 
@@ -368,7 +368,7 @@ function openMobileMenu() {
                 class="flex flex-col items-center justify-center py-8 text-gray-400"
               >
                 <Icon name="lucide:bell-off" class="h-8 w-8 mb-2" />
-                <p class="text-sm">No notifications</p>
+                <p class="text-sm">Sem notificações</p>
               </div>
             </div>
 
@@ -382,7 +382,7 @@ function openMobileMenu() {
                 class="flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                 @click="closeNotifications"
               >
-                View all activity
+                Ver toda a atividade
                 <Icon name="lucide:arrow-right" class="h-4 w-4" />
               </NuxtLink>
             </div>
@@ -398,13 +398,13 @@ function openMobileMenu() {
         <NuxtLink to="/movements">
           <UiButton variant="outline" size="sm" class="gap-2">
             <Icon name="lucide:arrow-down" class="h-4 w-4 text-emerald-600" />
-            <span>In</span>
+            <span>Entrada</span>
           </UiButton>
         </NuxtLink>
         <NuxtLink to="/movements">
           <UiButton variant="outline" size="sm" class="gap-2">
             <Icon name="lucide:arrow-up" class="h-4 w-4 text-red-600" />
-            <span>Out</span>
+            <span>Saída</span>
           </UiButton>
         </NuxtLink>
         <NuxtLink to="/products">
@@ -414,7 +414,7 @@ function openMobileMenu() {
             class="gap-2 shadow-md shadow-primary-500/20"
           >
             <Icon name="lucide:plus" class="h-4 w-4" />
-            <span>Product</span>
+            <span>Produto</span>
           </UiButton>
         </NuxtLink>
       </div>
@@ -454,7 +454,7 @@ function openMobileMenu() {
                 id="global-search"
                 v-model="searchQuery"
                 type="text"
-                placeholder="Search products, suppliers, categories..."
+                placeholder="Pesquisar produtos, fornecedores, categorias..."
                 class="h-10 flex-1 bg-transparent text-base outline-none placeholder:text-gray-400"
                 @keydown.escape.stop.prevent="closeSearch"
               />
@@ -473,7 +473,7 @@ function openMobileMenu() {
               <p
                 class="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider"
               >
-                Results ({{ filteredResults.length }})
+                Resultados ({{ filteredResults.length }})
               </p>
               <div class="flex flex-col p-2 max-h-64 overflow-y-auto">
                 <button
@@ -535,7 +535,7 @@ function openMobileMenu() {
               <p
                 class="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider"
               >
-                Quick Links
+                Links Rápidos
               </p>
               <div class="flex flex-col p-2">
                 <NuxtLink
@@ -548,7 +548,7 @@ function openMobileMenu() {
                   >
                     <Icon name="lucide:package" class="h-4 w-4" />
                   </div>
-                  <span>Products</span>
+                  <span>Produtos</span>
                 </NuxtLink>
                 <NuxtLink
                   to="/movements"
@@ -560,7 +560,7 @@ function openMobileMenu() {
                   >
                     <Icon name="lucide:arrow-left-right" class="h-4 w-4" />
                   </div>
-                  <span>Stock Movements</span>
+                  <span>Movimentações de Estoque</span>
                 </NuxtLink>
                 <NuxtLink
                   to="/suppliers"
@@ -572,7 +572,7 @@ function openMobileMenu() {
                   >
                     <Icon name="lucide:truck" class="h-4 w-4" />
                   </div>
-                  <span>Suppliers</span>
+                  <span>Fornecedores</span>
                 </NuxtLink>
               </div>
             </div>

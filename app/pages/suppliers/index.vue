@@ -1,31 +1,31 @@
 <script setup lang="ts">
-import type { Supplier } from '~~/server/database/schema';
+import type { Supplier } from "~~/server/database/schema";
 
 const toast = useToast();
 
-const { data: suppliers, pending, refresh } = await useFetch('/api/suppliers');
+const { data: suppliers, pending, refresh } = await useFetch("/api/suppliers");
 
 const isModalOpen = ref(false);
 const editingSupplier = ref<Supplier | null>(null);
 const isSubmitting = ref(false);
 
 const form = reactive({
-  name: '',
-  email: '',
-  phone: '',
-  address: '',
-  city: '',
-  postalCode: '',
-  country: 'France',
-  notes: '',
+  name: "",
+  email: "",
+  phone: "",
+  address: "",
+  city: "",
+  postalCode: "",
+  country: "Brazil",
+  notes: "",
 });
 
 const columns = [
-  { key: 'name', label: 'Supplier' },
-  { key: 'contact', label: 'Contact' },
-  { key: 'location', label: 'Location' },
-  { key: 'status', label: 'Status' },
-  { key: 'actions', label: '', class: 'w-24' },
+  { key: "name", label: "Fornecedor" },
+  { key: "contact", label: "Contacto" },
+  { key: "location", label: "Localização" },
+  { key: "status", label: "Estado" },
+  { key: "actions", label: "", class: "w-24" },
 ];
 
 function openCreateModal() {
@@ -38,33 +38,33 @@ function openEditModal(supplier: Supplier) {
   editingSupplier.value = supplier;
   Object.assign(form, {
     name: supplier.name,
-    email: supplier.email || '',
-    phone: supplier.phone || '',
-    address: supplier.address || '',
-    city: supplier.city || '',
-    postalCode: supplier.postalCode || '',
-    country: supplier.country || 'France',
-    notes: supplier.notes || '',
+    email: supplier.email || "",
+    phone: supplier.phone || "",
+    address: supplier.address || "",
+    city: supplier.city || "",
+    postalCode: supplier.postalCode || "",
+    country: supplier.country || "Brazil",
+    notes: supplier.notes || "",
   });
   isModalOpen.value = true;
 }
 
 function resetForm() {
   Object.assign(form, {
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    postalCode: '',
-    country: 'France',
-    notes: '',
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    city: "",
+    postalCode: "",
+    country: "Brazil",
+    notes: "",
   });
 }
 
 async function saveSupplier() {
   if (!form.name.trim()) {
-    toast.warning('Please enter a supplier name');
+    toast.warning("Por favor, insira o nome do fornecedor");
     return;
   }
 
@@ -72,43 +72,43 @@ async function saveSupplier() {
   try {
     if (editingSupplier.value) {
       await $fetch(`/api/suppliers/${editingSupplier.value.id}`, {
-        method: 'PUT',
+        method: "PUT",
         body: form,
       });
-      toast.success('Supplier updated successfully');
+      toast.success("Fornecedor atualizado");
     } else {
-      await $fetch('/api/suppliers', {
-        method: 'POST',
+      await $fetch("/api/suppliers", {
+        method: "POST",
         body: form,
       });
-      toast.success('Supplier added successfully');
+      toast.success("Fornecedor adicionado");
     }
     isModalOpen.value = false;
     refresh();
   } catch (error) {
-    console.error('Failed to save supplier:', error);
-    toast.error('Failed to save supplier');
+    console.error("Failed to save supplier:", error);
+    toast.error("Erro ao salvar fornecedor");
   } finally {
     isSubmitting.value = false;
   }
 }
 
 async function deleteSupplier(id: string, name: string) {
-  if (!confirm(`Are you sure you want to delete "${name}"?`)) return;
+  if (!confirm(`Tem certeza que deseja excluir "${name}"?`)) return;
 
   try {
-    await $fetch(`/api/suppliers/${id}`, { method: 'DELETE' });
-    toast.success('Supplier deleted successfully');
+    await $fetch(`/api/suppliers/${id}`, { method: "DELETE" });
+    toast.success("Fornecedor excluído");
     refresh();
   } catch (error) {
-    console.error('Failed to delete supplier:', error);
-    toast.error('Failed to delete supplier');
+    console.error("Failed to delete supplier:", error);
+    toast.error("Erro ao excluir fornecedor");
   }
 }
 
 const totalSuppliers = computed(() => suppliers.value?.length ?? 0);
 const activeSuppliers = computed(
-  () => suppliers.value?.filter((s) => s.isActive).length ?? 0
+  () => suppliers.value?.filter((s) => s.isActive).length ?? 0,
 );
 </script>
 
@@ -116,12 +116,14 @@ const activeSuppliers = computed(
   <div class="space-y-4">
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-lg font-semibold text-gray-900">Suppliers</h1>
-        <p class="text-xs text-gray-500">Manage product suppliers</p>
+        <h1 class="text-lg font-semibold text-gray-900">Fornecedores</h1>
+        <p class="text-xs text-gray-500">
+          Gerencie os fornecedores de produtos
+        </p>
       </div>
       <button class="btn-primary" @click="openCreateModal">
         <Icon name="lucide:plus" class="h-3.5 w-3.5" />
-        Add
+        Adicionar
       </button>
     </div>
 
@@ -143,7 +145,7 @@ const activeSuppliers = computed(
           <span class="font-medium font-mono text-green-700">{{
             activeSuppliers
           }}</span>
-          <span class="text-green-600"> active</span>
+          <span class="text-green-600"> ativos</span>
         </span>
       </div>
     </div>
@@ -153,8 +155,8 @@ const activeSuppliers = computed(
         :columns="columns"
         :data="suppliers || []"
         :loading="pending"
-        empty-title="No suppliers"
-        empty-description="Add suppliers to track sources."
+        empty-title="Nenhum fornecedor"
+        empty-description="Adicione fornecedores para rastrear origens."
         empty-icon="lucide:truck"
         hoverable
       >
@@ -210,7 +212,7 @@ const activeSuppliers = computed(
             <Icon name="lucide:map-pin" class="h-3 w-3 text-gray-400" />
             <div>
               <p class="text-xs text-gray-600">
-                {{ [item.city, item.country].filter(Boolean).join(', ') }}
+                {{ [item.city, item.country].filter(Boolean).join(", ") }}
               </p>
               <p v-if="item.postalCode" class="text-xs text-gray-400">
                 {{ item.postalCode }}
@@ -222,7 +224,7 @@ const activeSuppliers = computed(
 
         <template #status="{ item }">
           <span :class="['badge', item.isActive ? 'badge-success' : 'badge']">
-            {{ item.isActive ? 'Active' : 'Inactive' }}
+            {{ item.isActive ? "Ativo" : "Inativo" }}
           </span>
         </template>
 
@@ -233,14 +235,14 @@ const activeSuppliers = computed(
             <button
               class="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded transition-colors"
               @click="openEditModal(item)"
-              aria-label="Edit"
+              aria-label="Editar"
             >
               <Icon name="lucide:pencil" class="h-3.5 w-3.5" />
             </button>
             <button
               class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
               @click="deleteSupplier(item.id, item.name)"
-              aria-label="Delete"
+              aria-label="Excluir"
             >
               <Icon name="lucide:trash-2" class="h-3.5 w-3.5" />
             </button>
@@ -251,7 +253,7 @@ const activeSuppliers = computed(
 
     <UiModal
       v-model:open="isModalOpen"
-      :title="editingSupplier ? 'Edit Supplier' : 'New Supplier'"
+      :title="editingSupplier ? 'Editar Fornecedor' : 'Novo Fornecedor'"
       size="lg"
     >
       <form id="supplier-form" class="space-y-4" @submit.prevent="saveSupplier">
@@ -260,15 +262,15 @@ const activeSuppliers = computed(
             class="mb-3 flex items-center gap-1.5 text-xs font-medium text-gray-700 uppercase tracking-wide"
           >
             <Icon name="lucide:building-2" class="h-3.5 w-3.5" />
-            Basic Info
+            Informações Básicas
           </h3>
           <div>
             <label class="label"
-              >Name <span class="text-red-500">*</span></label
+              >Nome <span class="text-red-500">*</span></label
             >
             <UiInput
               v-model="form.name"
-              placeholder="Supplier name"
+              placeholder="Nome do fornecedor"
               autofocus
             />
           </div>
@@ -279,7 +281,7 @@ const activeSuppliers = computed(
             class="mb-3 flex items-center gap-1.5 text-xs font-medium text-gray-700 uppercase tracking-wide"
           >
             <Icon name="lucide:contact" class="h-3.5 w-3.5" />
-            Contact
+            Contacto
           </h3>
           <div class="grid gap-3 sm:grid-cols-2">
             <div>
@@ -287,12 +289,12 @@ const activeSuppliers = computed(
               <UiInput
                 v-model="form.email"
                 type="email"
-                placeholder="email@supplier.com"
+                placeholder="email@fornecedor.com"
               />
             </div>
             <div>
-              <label class="label">Phone</label>
-              <UiInput v-model="form.phone" placeholder="+33 1 23 45 67 89" />
+              <label class="label">Telefone</label>
+              <UiInput v-model="form.phone" placeholder="+351 912 345 678" />
             </div>
           </div>
         </div>
@@ -302,36 +304,44 @@ const activeSuppliers = computed(
             class="mb-3 flex items-center gap-1.5 text-xs font-medium text-gray-700 uppercase tracking-wide"
           >
             <Icon name="lucide:map-pin" class="h-3.5 w-3.5" />
-            Address
+            Endereço
           </h3>
           <div class="space-y-3">
             <div>
-              <label class="label">Street</label>
-              <UiInput v-model="form.address" placeholder="123 Main Street" />
+              <label class="label">Rua</label>
+              <UiInput
+                v-model="form.address"
+                placeholder="Rua Principal, 123"
+              />
             </div>
             <div class="grid gap-3 sm:grid-cols-3">
               <div>
-                <label class="label">City</label>
-                <UiInput v-model="form.city" placeholder="Paris" />
+                <label class="label">Cidade</label>
+                <UiInput v-model="form.city" placeholder="Lisboa" />
               </div>
               <div>
-                <label class="label">Postal Code</label>
-                <UiInput v-model="form.postalCode" placeholder="75001" />
+                <label class="label">Código Postal</label>
+                <UiInput v-model="form.postalCode" placeholder="1000-001" />
               </div>
               <div>
-                <label class="label">Country</label>
-                <UiInput v-model="form.country" placeholder="France" />
+                <label class="label">País</label>
+                <UiInput v-model="form.country" placeholder="Portugal" />
               </div>
             </div>
           </div>
         </div>
 
-        <div>
-          <label class="label">Notes</label>
+        <div class="rounded border border-gray-200 bg-gray-50 p-3">
+          <h3
+            class="mb-3 flex items-center gap-1.5 text-xs font-medium text-gray-700 uppercase tracking-wide"
+          >
+            <Icon name="lucide:file-text" class="h-3.5 w-3.5" />
+            Observações
+          </h3>
           <textarea
             v-model="form.notes"
-            class="input min-h-[60px] resize-none"
-            placeholder="Additional notes..."
+            class="input min-h-[80px] w-full resize-none p-3"
+            placeholder="Notas adicionais sobre o fornecedor..."
           />
         </div>
       </form>
@@ -343,7 +353,7 @@ const activeSuppliers = computed(
           :disabled="isSubmitting"
           @click="isModalOpen = false"
         >
-          Cancel
+          Cancelar
         </button>
         <button
           type="submit"
@@ -356,7 +366,7 @@ const activeSuppliers = computed(
             name="lucide:loader-2"
             class="h-3.5 w-3.5 animate-spin"
           />
-          {{ editingSupplier ? 'Update' : 'Add' }}
+          {{ editingSupplier ? "Atualizar" : "Adicionar" }}
         </button>
       </template>
     </UiModal>

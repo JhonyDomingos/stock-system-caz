@@ -3,7 +3,7 @@ interface User {
   id: string;
   email: string;
   name: string;
-  role: 'admin' | 'member' | 'viewer';
+  role: "admin" | "member" | "viewer";
   isActive: boolean;
   createdAt: string;
 }
@@ -11,7 +11,7 @@ interface User {
 const { user: currentUser } = useAuth();
 const toast = useToast();
 
-const { data: users, refresh } = await useFetch<User[]>('/api/users');
+const { data: users, refresh } = await useFetch<User[]>("/api/users");
 
 const showModal = ref(false);
 const showEditModal = ref(false);
@@ -19,25 +19,25 @@ const editingUser = ref<User | null>(null);
 const isSubmitting = ref(false);
 
 const form = reactive({
-  name: '',
-  email: '',
-  password: '',
-  role: 'member' as 'member' | 'viewer',
+  name: "",
+  email: "",
+  password: "",
+  role: "member" as "member" | "viewer",
 });
 
 const editForm = reactive({
-  name: '',
-  email: '',
-  password: '',
-  role: 'member' as 'member' | 'viewer',
+  name: "",
+  email: "",
+  password: "",
+  role: "member" as "member" | "viewer",
   isActive: true,
 });
 
 function openCreateModal() {
-  form.name = '';
-  form.email = '';
-  form.password = '';
-  form.role = 'member';
+  form.name = "";
+  form.email = "";
+  form.password = "";
+  form.role = "member";
   showModal.value = true;
 }
 
@@ -45,28 +45,28 @@ function openEditModal(user: User) {
   editingUser.value = user;
   editForm.name = user.name;
   editForm.email = user.email;
-  editForm.password = '';
-  editForm.role = user.role === 'admin' ? 'member' : user.role;
+  editForm.password = "";
+  editForm.role = user.role === "admin" ? "member" : user.role;
   editForm.isActive = user.isActive;
   showEditModal.value = true;
 }
 
 async function createUser() {
   if (!form.name.trim() || !form.email.trim() || !form.password) {
-    toast.error('Please fill all fields');
+    toast.error("Por favor Preencha todos os campos");
     return;
   }
 
   if (form.password.length < 8) {
-    toast.error('Password must be at least 8 characters');
+    toast.error("A senha deve ter pelo menos 8 caracteres");
     return;
   }
 
   isSubmitting.value = true;
 
   try {
-    await $fetch('/api/users', {
-      method: 'POST',
+    await $fetch("/api/users", {
+      method: "POST",
       body: {
         name: form.name,
         email: form.email,
@@ -75,12 +75,12 @@ async function createUser() {
       },
     });
 
-    toast.success('User created successfully');
+    toast.success("Usuário criado com sucesso");
     showModal.value = false;
     await refresh();
   } catch (e: unknown) {
     const err = e as { data?: { message?: string } };
-    toast.error(err.data?.message || 'Failed to create user');
+    toast.error(err.data?.message || "Falha ao criar usuário");
   } finally {
     isSubmitting.value = false;
   }
@@ -90,12 +90,12 @@ async function updateUser() {
   if (!editingUser.value) return;
 
   if (!editForm.name.trim() || !editForm.email.trim()) {
-    toast.error('Name and email are required');
+    toast.error("Nome e email são obrigatórios");
     return;
   }
 
   if (editForm.password && editForm.password.length < 8) {
-    toast.error('Password must be at least 8 characters');
+    toast.error("A senha deve ter pelo menos 8 caracteres");
     return;
   }
 
@@ -109,7 +109,7 @@ async function updateUser() {
     };
 
     // Only include role if not editing an admin
-    if (editingUser.value.role !== 'admin') {
+    if (editingUser.value.role !== "admin") {
       body.role = editForm.role;
     }
 
@@ -118,17 +118,17 @@ async function updateUser() {
     }
 
     await $fetch(`/api/users/${editingUser.value.id}`, {
-      method: 'PUT',
+      method: "PUT",
       body,
     });
 
-    toast.success('User updated successfully');
+    toast.success("Usuário atualizado com sucesso");
     showEditModal.value = false;
     editingUser.value = null;
     await refresh();
   } catch (e: unknown) {
     const err = e as { data?: { message?: string } };
-    toast.error(err.data?.message || 'Failed to update user');
+    toast.error(err.data?.message || "Falha ao atualizar usuário");
   } finally {
     isSubmitting.value = false;
   }
@@ -136,29 +136,29 @@ async function updateUser() {
 
 async function deleteUser(user: User) {
   if (user.id === currentUser.value?.id) {
-    toast.error('You cannot delete your own account');
+    toast.error("Você não pode excluir sua própria conta");
     return;
   }
 
-  if (!confirm(`Are you sure you want to delete ${user.name}?`)) {
+  if (!confirm(`Tem certeza que deseja excluir ${user.name}?`)) {
     return;
   }
 
   try {
-    await $fetch(`/api/users/${user.id}`, { method: 'DELETE' });
-    toast.success('User deleted successfully');
+    await $fetch(`/api/users/${user.id}`, { method: "DELETE" });
+    toast.success("Usuário excluído com sucesso");
     await refresh();
   } catch (e: unknown) {
     const err = e as { data?: { message?: string } };
-    toast.error(err.data?.message || 'Failed to delete user');
+    toast.error(err.data?.message || "Falha ao excluir usuário");
   }
 }
 
 function formatDate(date: string): string {
-  return new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
+  return new Intl.DateTimeFormat("pt-BR", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
   }).format(new Date(date));
 }
 </script>
@@ -168,15 +168,15 @@ function formatDate(date: string): string {
     <div class="flex items-center justify-between">
       <div>
         <h1 class="text-2xl font-semibold tracking-tight text-gray-900">
-          Users
+          Usuários
         </h1>
         <p class="mt-1 text-sm text-gray-500">
-          Manage user accounts and access levels.
+          Gerenciar contas de usuário e níveis de acesso.
         </p>
       </div>
       <UiButton @click="openCreateModal">
         <Icon name="lucide:plus" class="w-4 h-4 mr-2" />
-        Add User
+        Adicionar Usuário
       </UiButton>
     </div>
 
@@ -188,12 +188,12 @@ function formatDate(date: string): string {
               <th
                 class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider"
               >
-                User
+                Usuário
               </th>
               <th
                 class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider"
               >
-                Role
+                Função
               </th>
               <th
                 class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider"
@@ -203,7 +203,7 @@ function formatDate(date: string): string {
               <th
                 class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider"
               >
-                Created
+                Criado
               </th>
               <th class="px-4 py-3 text-right"></th>
             </tr>
@@ -221,7 +221,7 @@ function formatDate(date: string): string {
                     <span
                       v-if="user.id === currentUser?.id"
                       class="text-xs text-gray-400 ml-1"
-                      >(you)</span
+                      >(Você)</span
                     >
                   </p>
                   <p class="text-xs text-gray-500">{{ user.email }}</p>
@@ -237,11 +237,11 @@ function formatDate(date: string): string {
                   }"
                 >
                   {{
-                    user.role === 'admin'
-                      ? 'Administrator'
-                      : user.role === 'member'
-                      ? 'Member'
-                      : 'Viewer'
+                    user.role === "admin"
+                      ? "Administrador"
+                      : user.role === "member"
+                        ? "Membro"
+                        : "Visualizador"
                   }}
                 </span>
               </td>
@@ -254,7 +254,7 @@ function formatDate(date: string): string {
                       : 'bg-red-100 text-red-700'
                   "
                 >
-                  {{ user.isActive ? 'Active' : 'Inactive' }}
+                  {{ user.isActive ? "Ativo" : "Inativo" }}
                 </span>
               </td>
               <td class="px-4 py-3 text-sm text-gray-500">
@@ -265,7 +265,7 @@ function formatDate(date: string): string {
                   <button
                     @click="openEditModal(user)"
                     class="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
-                    title="Edit user"
+                    title="Editar usuário"
                   >
                     <Icon name="lucide:pencil" class="w-4 h-4" />
                   </button>
@@ -273,7 +273,7 @@ function formatDate(date: string): string {
                     v-if="user.id !== currentUser?.id && user.role !== 'admin'"
                     @click="deleteUser(user)"
                     class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
-                    title="Delete user"
+                    title="Excluir usuário"
                   >
                     <Icon name="lucide:trash-2" class="w-4 h-4" />
                   </button>
@@ -287,17 +287,17 @@ function formatDate(date: string): string {
       <UiEmptyState
         v-if="users?.length === 0"
         icon="lucide:users"
-        title="No users yet"
-        description="Create your first user to get started."
+        title="Nenhum usuário ainda"
+        description="Crie seu primeiro usuário para começar."
       />
     </div>
 
     <!-- Create User Modal -->
-    <UiModal v-model:open="showModal" title="Add New User">
+    <UiModal v-model:open="showModal" title="Adicionar Novo Usuário">
       <form @submit.prevent="createUser" class="space-y-4">
         <UiInput
           v-model="form.name"
-          label="Full Name"
+          label="Nome completo"
           placeholder="John Doe"
           :disabled="isSubmitting"
         />
@@ -305,7 +305,7 @@ function formatDate(date: string): string {
         <UiInput
           v-model="form.email"
           type="email"
-          label="Email Address"
+          label="Endereço de Email"
           placeholder="user@company.com"
           :disabled="isSubmitting"
         />
@@ -313,25 +313,26 @@ function formatDate(date: string): string {
         <UiInput
           v-model="form.password"
           type="password"
-          label="Password"
-          placeholder="Minimum 8 characters"
+          label="Senha"
+          placeholder="Mínimo 8 caracteres"
           :disabled="isSubmitting"
         />
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1.5">
-            Role
+            Função
           </label>
           <select
             v-model="form.role"
             class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
             :disabled="isSubmitting"
           >
-            <option value="member">Member (Full access)</option>
-            <option value="viewer">Viewer (Read-only)</option>
+            <option value="member">Membro (Acesso completo)</option>
+            <option value="viewer">Visualizador (Apenas Leitura)</option>
           </select>
           <p class="mt-1 text-xs text-gray-500">
-            Members can create and modify data. Viewers have read-only access.
+            Membros têm acesso completo. Visualizadores têm acesso somente
+            leitura.
           </p>
         </div>
 
@@ -342,21 +343,21 @@ function formatDate(date: string): string {
             @click="showModal = false"
             :disabled="isSubmitting"
           >
-            Cancel
+            Cancelar
           </UiButton>
           <UiButton type="submit" :loading="isSubmitting">
-            Create User
+            Criar Usuário
           </UiButton>
         </div>
       </form>
     </UiModal>
 
     <!-- Edit User Modal -->
-    <UiModal v-model:open="showEditModal" title="Edit User">
+    <UiModal v-model:open="showEditModal" title="Editar Usuário">
       <form @submit.prevent="updateUser" class="space-y-4">
         <UiInput
           v-model="editForm.name"
-          label="Full Name"
+          label="Nome completo"
           placeholder="John Doe"
           :disabled="isSubmitting"
         />
@@ -364,7 +365,7 @@ function formatDate(date: string): string {
         <UiInput
           v-model="editForm.email"
           type="email"
-          label="Email Address"
+          label="Endereço de Email"
           placeholder="user@company.com"
           :disabled="isSubmitting"
         />
@@ -372,8 +373,8 @@ function formatDate(date: string): string {
         <UiInput
           v-model="editForm.password"
           type="password"
-          label="New Password (leave blank to keep current)"
-          placeholder="Minimum 8 characters"
+          label="Nova Senha (Deixe em branco para manter a senha atual)"
+          placeholder="Mínimo 8 caracteres"
           :disabled="isSubmitting"
         />
 
@@ -388,24 +389,25 @@ function formatDate(date: string): string {
             class="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
           />
           <label for="isActive" class="text-sm text-gray-700">
-            Account is active
+            Conta Ativa
           </label>
         </div>
 
         <div v-if="editingUser?.role !== 'admin'">
           <label class="block text-sm font-medium text-gray-700 mb-1.5">
-            Role
+            Função
           </label>
           <select
             v-model="editForm.role"
             class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
             :disabled="isSubmitting"
           >
-            <option value="member">Member (Full access)</option>
-            <option value="viewer">Viewer (Read-only)</option>
+            <option value="member">Membro (Acesso completo)</option>
+            <option value="viewer">Visualizador (Apenas leitura)</option>
           </select>
           <p class="mt-1 text-xs text-gray-500">
-            Members can create and modify data. Viewers have read-only access.
+            Membros têm acesso completo. Visualizadores têm acesso somente
+            leitura.
           </p>
         </div>
 
@@ -416,10 +418,10 @@ function formatDate(date: string): string {
             @click="showEditModal = false"
             :disabled="isSubmitting"
           >
-            Cancel
+            Cancelar
           </UiButton>
           <UiButton type="submit" :loading="isSubmitting">
-            Save Changes
+            Salvar Alterações
           </UiButton>
         </div>
       </form>

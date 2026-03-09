@@ -12,7 +12,7 @@ const chartData = computed<ChartData<'line'>>(() => ({
   labels: props.labels,
   datasets: [
     {
-      label: 'Stock In',
+      label: 'Entradas',
       data: props.stockIn,
       borderColor: '#10B981',
       backgroundColor: 'rgba(16, 185, 129, 0.1)',
@@ -22,7 +22,7 @@ const chartData = computed<ChartData<'line'>>(() => ({
       pointHoverRadius: 5,
     },
     {
-      label: 'Stock Out',
+      label: 'Saídas',
       data: props.stockOut,
       borderColor: '#EF4444',
       backgroundColor: 'rgba(239, 68, 68, 0.1)',
@@ -60,7 +60,7 @@ const chartOptions: ChartOptions<'line'> = {
     tooltip: {
       callbacks: {
         label: (context) =>
-          `${context.dataset.label}: ${context.parsed.y} units`,
+          `${context.dataset.label}: ${context.parsed.y} unidades`,
       },
     },
   },

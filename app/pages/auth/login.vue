@@ -26,12 +26,12 @@ async function handleSubmit() {
   error.value = '';
 
   if (!form.email.trim()) {
-    error.value = 'Email is required';
+    error.value = 'Email é obrigatório';
     return;
   }
 
   if (!form.password) {
-    error.value = 'Password is required';
+    error.value = 'Palavra-passe é obrigatória';
     return;
   }
 
@@ -42,7 +42,7 @@ async function handleSubmit() {
     await router.push('/');
   } catch (e: unknown) {
     const err = e as { data?: { message?: string } };
-    error.value = err.data?.message || 'Invalid email or password';
+    error.value = err.data?.message || 'Email ou palavra-passe inválidos';
   } finally {
     isLoading.value = false;
   }
@@ -59,9 +59,9 @@ async function handleSubmit() {
           >
             <Icon name="lucide:package" class="w-6 h-6 text-primary-600" />
           </div>
-          <h1 class="text-2xl font-bold text-gray-900">Welcome back</h1>
+          <h1 class="text-2xl font-bold text-gray-900">Bem-vindo de volta</h1>
           <p class="text-sm text-gray-500 mt-2">
-            Sign in to your OpenStock account
+            Inicie sessão na sua conta OpenStock
           </p>
         </div>
 
@@ -79,8 +79,8 @@ async function handleSubmit() {
           <UiInput
             v-model="form.email"
             type="email"
-            label="Email Address"
-            placeholder="admin@company.com"
+            label="Endereço de Email"
+            placeholder="admin@empresa.com"
             icon="lucide:mail"
             :disabled="isLoading"
           />
@@ -88,7 +88,7 @@ async function handleSubmit() {
           <UiInput
             v-model="form.password"
             type="password"
-            label="Password"
+            label="Palavra-passe"
             placeholder="••••••••"
             icon="lucide:lock"
             :disabled="isLoading"
@@ -101,7 +101,7 @@ async function handleSubmit() {
             :disabled="isLoading"
           >
             <Icon v-if="!isLoading" name="lucide:log-in" class="w-4 h-4 mr-2" />
-            Sign In
+            Entrar
           </UiButton>
         </form>
       </div>

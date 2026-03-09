@@ -22,7 +22,7 @@ const defaultColors = [
 ];
 
 const chartData = computed<ChartData<'doughnut'>>(() => ({
-  labels: props.data.map((d) => d.categoryName || 'Uncategorized'),
+  labels: props.data.map((d) => d.categoryName || 'Sem Categoria'),
   datasets: [
     {
       data: props.data.map((d) => d.count),
@@ -76,7 +76,7 @@ const chartOptions: ChartOptions<'doughnut'> = {
             0
           ) as number;
           const percentage = ((context.parsed / total) * 100).toFixed(1);
-          return `${context.label}: ${context.parsed} products (${percentage}%)`;
+          return `${context.label}: ${context.parsed} produtos (${percentage}%)`;
         },
       },
     },
@@ -97,7 +97,7 @@ const totalProducts = computed(() =>
     >
       <div class="text-center">
         <p class="text-2xl font-bold text-gray-900">{{ totalProducts }}</p>
-        <p class="text-xs text-gray-500">Products</p>
+        <p class="text-xs text-gray-500">Produtos</p>
       </div>
     </div>
   </div>

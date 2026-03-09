@@ -34,8 +34,8 @@ export function useNotifications() {
             alerts.push({
               id,
               type: 'error',
-              title: 'Out of Stock',
-              description: `${product.name} is out of stock`,
+              title: 'Sem Estoque',
+              description: `${product.name} está sem estoque`,
               href: `/products/${product.id}`,
               read: readGeneratedIds.value.has(id),
               createdAt: new Date(),
@@ -45,8 +45,8 @@ export function useNotifications() {
             alerts.push({
               id,
               type: 'warning',
-              title: 'Low Stock Alert',
-              description: `${product.name} has only ${product.stockQuantity} units left (min: ${product.stockMin})`,
+              title: 'Alerta de Estoque Baixo',
+              description: `${product.name} tem apenas ${product.stockQuantity} unidades (mín: ${product.stockMin})`,
               href: `/products/${product.id}`,
               read: readGeneratedIds.value.has(id),
               createdAt: new Date(),
@@ -63,8 +63,8 @@ export function useNotifications() {
                 alerts.push({
                   id,
                   type: 'error',
-                  title: 'Out of Stock',
-                  description: `${product.name} - ${variant.name} is out of stock`,
+                  title: 'Sem Estoque',
+                  description: `${product.name} - ${variant.name} está sem estoque`,
                   href: `/products/${product.id}`,
                   read: readGeneratedIds.value.has(id),
                   createdAt: new Date(),
@@ -74,8 +74,8 @@ export function useNotifications() {
                 alerts.push({
                   id,
                   type: 'warning',
-                  title: 'Low Stock Alert',
-                  description: `${product.name} - ${variant.name} has only ${variant.stockQuantity} units left`,
+                  title: 'Alerta de Estoque Baixo',
+                  description: `${product.name} - ${variant.name} tem apenas ${variant.stockQuantity} unidades`,
                   href: `/products/${product.id}`,
                   read: readGeneratedIds.value.has(id),
                   createdAt: new Date(),

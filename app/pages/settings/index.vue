@@ -36,11 +36,11 @@ async function seedDatabase() {
   try {
     const result = await $fetch('/api/__seed', { method: 'POST' });
     toast.success(
-      'Database seeded',
-      `Created ${result.counts.products} products, ${result.counts.categories} categories, ${result.counts.suppliers} suppliers`
+      'Base de dados populada',
+      `Criados ${result.counts.products} produtos, ${result.counts.categories} categorias, ${result.counts.suppliers} fornecedores`
     );
   } catch (error: any) {
-    toast.error('Seed failed', error.message || 'Failed to seed database');
+    toast.error('Erro ao popular', error.message || 'Falha ao popular a base de dados');
   } finally {
     seedLoading.value = false;
   }
@@ -53,11 +53,11 @@ async function clearDatabase() {
   try {
     await $fetch('/api/__clear', { method: 'POST' });
     toast.success(
-      'Database cleared',
-      'All data has been removed (settings preserved).'
+      'Base de dados limpa',
+      'Todos os dados foram removidos (configurações preservadas).'
     );
   } catch (error: any) {
-    toast.error('Clear failed', error.message || 'Failed to clear database');
+    toast.error('Erro ao limpar', error.message || 'Falha ao limpar a base de dados');
   } finally {
     clearLoading.value = false;
   }
@@ -71,9 +71,9 @@ async function saveSettings() {
   loading.value = false;
 
   if (success) {
-    toast.success('Configuration saved', 'Your settings have been updated.');
+    toast.success('Configurações salvas', 'As suas configurações foram atualizadas.');
   } else {
-    toast.error('Error', 'Failed to save settings.');
+    toast.error('Erro', 'Falha ao salvar configurações.');
   }
 }
 
@@ -105,10 +105,10 @@ const ui = {
     <div class="flex items-end justify-between border-b border-gray-200 pb-4">
       <div>
         <h1 class="text-2xl font-semibold tracking-tight text-gray-900">
-          Settings
+          Configurações
         </h1>
         <p class="mt-1 text-sm text-gray-500">
-          Manage your workspace preferences and defaults.
+          Gerencie as preferências e padrões do seu espaço de trabalho.
         </p>
       </div>
       <button
@@ -122,7 +122,7 @@ const ui = {
           class="h-4 w-4 animate-spin"
         />
         <Icon v-else name="lucide:save" class="h-4 w-4" />
-        Save Changes
+        Salvar Alterações
       </button>
     </div>
 
@@ -130,33 +130,33 @@ const ui = {
       <div v-if="settings" class="lg:col-span-8 space-y-6">
         <div :class="ui.card">
           <div :class="ui.cardHeader">
-            <h2 :class="ui.cardTitle">General Configuration</h2>
+            <h2 :class="ui.cardTitle">Configurações Gerais</h2>
             <Icon name="lucide:settings-2" class="h-4 w-4 text-gray-400" />
           </div>
           <div :class="ui.cardBody">
             <div class="grid gap-5 sm:grid-cols-2">
               <div class="sm:col-span-2">
-                <label :class="ui.label">Workspace Name</label>
+                <label :class="ui.label">Nome do Negócio</label>
                 <input
                   v-model="settings.businessName"
                   type="text"
                   :class="ui.input"
-                  placeholder="Ex: My Awesome Shop"
+                  placeholder="Ex: Minha Loja Incrível"
                 />
               </div>
 
               <div>
-                <label :class="ui.label">Currency</label>
+                <label :class="ui.label">Moeda</label>
                 <select v-model="settings.currency" :class="ui.inputSelect">
                   <option value="EUR">Euro (€)</option>
-                  <option value="USD">US Dollar ($)</option>
-                  <option value="GBP">British Pound (£)</option>
-                  <option value="BRL">Brazilian Real (R$)</option>
+                  <option value="USD">Dólar Americano ($)</option>
+                  <option value="GBP">Libra Esterlina (£)</option>
+                  <option value="BRL">Real Brasileiro (R$)</option>
                 </select>
               </div>
 
               <div>
-                <label :class="ui.label">Default Margin</label>
+                <label :class="ui.label">Margem Padrão</label>
                 <div class="relative rounded-md shadow-sm">
                   <input
                     v-model="settings.defaultMargin"
@@ -194,9 +194,9 @@ const ui = {
               />
             </div>
             <div>
-              <h3 class="font-semibold text-gray-900">Tax Rules</h3>
+              <h3 class="font-semibold text-gray-900">Impostos</h3>
               <p class="text-xs text-gray-500 mt-1">
-                Manage VAT & regional taxes.
+                Gerencie IVA e impostos regionais.
               </p>
             </div>
           </NuxtLink>
@@ -220,8 +220,8 @@ const ui = {
               />
             </div>
             <div>
-              <h3 class="font-semibold text-gray-900">Categories</h3>
-              <p class="text-xs text-gray-500 mt-1">Organize your inventory.</p>
+              <h3 class="font-semibold text-gray-900">Categorias</h3>
+              <p class="text-xs text-gray-500 mt-1">Organize o seu inventário.</p>
             </div>
           </NuxtLink>
 
@@ -244,8 +244,8 @@ const ui = {
               />
             </div>
             <div>
-              <h3 class="font-semibold text-gray-900">Suppliers</h3>
-              <p class="text-xs text-gray-500 mt-1">Manage vendor directory.</p>
+              <h3 class="font-semibold text-gray-900">Fornecedores</h3>
+              <p class="text-xs text-gray-500 mt-1">Gerencie o diretório de fornecedores.</p>
             </div>
           </NuxtLink>
         </div>
@@ -254,16 +254,16 @@ const ui = {
       <div class="lg:col-span-4 space-y-6">
         <div v-if="settings" :class="ui.card">
           <div :class="ui.cardHeader">
-            <h2 :class="ui.cardTitle">Notifications</h2>
+            <h2 :class="ui.cardTitle">Notificações</h2>
             <Icon name="lucide:bell" class="h-4 w-4 text-gray-400" />
           </div>
 
           <div class="divide-y divide-gray-100">
             <div class="flex items-center justify-between p-4">
               <div class="flex-1 pr-4">
-                <p class="text-sm font-medium text-gray-900">Low Stock Alert</p>
+                <p class="text-sm font-medium text-gray-900">Alerta de Estoque Baixo</p>
                 <p class="text-xs text-gray-500 mt-0.5">
-                  Notify when items reach min level.
+                  Notificar quando itens atingirem o nível mínimo.
                 </p>
               </div>
               <button
@@ -295,9 +295,9 @@ const ui = {
 
             <div class="flex items-center justify-between p-4">
               <div class="flex-1 pr-4">
-                <p class="text-sm font-medium text-gray-900">Out of Stock</p>
+                <p class="text-sm font-medium text-gray-900">Sem Estoque</p>
                 <p class="text-xs text-gray-500 mt-0.5">
-                  Critical alert when stock is 0.
+                  Alerta crítico quando o estoque for 0.
                 </p>
               </div>
               <button
@@ -331,7 +331,7 @@ const ui = {
 
           <div class="bg-gray-50 px-4 py-3 border-t border-gray-100">
             <p class="text-xs text-gray-500 text-center">
-              Alerts are sent to
+              Alertas enviados para
               <span class="font-medium text-gray-900">admin@openstock.io</span>
             </p>
           </div>
@@ -344,7 +344,7 @@ const ui = {
         >
           <div :class="ui.cardHeader" class="bg-amber-50 border-amber-100">
             <h2 :class="ui.cardTitle" class="text-amber-700">
-              Developer Tools
+              Ferramentas de Desenvolvimento
             </h2>
             <Icon name="lucide:code-2" class="h-4 w-4 text-amber-500" />
           </div>
@@ -358,10 +358,9 @@ const ui = {
                 </div>
               </div>
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-gray-900">Seed Database</p>
+                <p class="text-sm font-medium text-gray-900">Popular Base de Dados</p>
                 <p class="text-xs text-gray-500 mt-0.5">
-                  Populate the database with sample data. This will clear all
-                  existing data.
+                  Preencher a base de dados com dados de exemplo. Isto irá apagar todos os dados existentes.
                 </p>
               </div>
             </div>
@@ -376,7 +375,7 @@ const ui = {
                 class="h-4 w-4 animate-spin"
               />
               <Icon v-else name="lucide:sparkles" class="h-4 w-4" />
-              {{ seedLoading ? 'Seeding...' : 'Seed Sample Data' }}
+              {{ seedLoading ? 'A popular...' : 'Popular Dados de Exemplo' }}
             </button>
 
             <div class="border-t border-amber-200 pt-4 mt-4">
@@ -390,10 +389,10 @@ const ui = {
                 </div>
                 <div class="flex-1 min-w-0">
                   <p class="text-sm font-medium text-gray-900">
-                    Clear Database
+                    Limpar Base de Dados
                   </p>
                   <p class="text-xs text-gray-500 mt-0.5">
-                    Remove all data except settings.
+                    Remover todos os dados exceto configurações.
                   </p>
                 </div>
               </div>
@@ -408,7 +407,7 @@ const ui = {
                   class="h-4 w-4 animate-spin"
                 />
                 <Icon v-else name="lucide:trash-2" class="h-4 w-4" />
-                {{ clearLoading ? 'Clearing...' : 'Clear All Data' }}
+                {{ clearLoading ? 'A limpar...' : 'Limpar Todos os Dados' }}
               </button>
             </div>
 
@@ -417,7 +416,7 @@ const ui = {
                 name="lucide:alert-triangle"
                 class="h-3 w-3 inline-block mr-1"
               />
-              These actions cannot be undone
+              Estas ações não podem ser desfeitas
             </p>
           </div>
         </div>

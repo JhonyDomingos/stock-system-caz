@@ -46,7 +46,7 @@ const chartData = computed(() => {
 
   const datasets = [
     {
-      label: 'Selling Price',
+      label: 'Preço de Venda',
       data: priceData.value.sellingPrice.data,
       borderColor: 'rgb(239, 68, 68)', // Red
       backgroundColor: 'rgba(239, 68, 68, 0.1)',
@@ -58,7 +58,7 @@ const chartData = computed(() => {
     ...priceData.value.suppliers.map((supplier: any, index: number) => {
       const color = colors[index % colors.length] || 'rgb(107, 114, 128)';
       return {
-        label: `${supplier.supplierName} (Purchase)`,
+        label: `${supplier.supplierName} (Compra)`,
         data: supplier.data,
         borderColor: color,
         backgroundColor: color.replace('rgb', 'rgba').replace(')', ', 0.1)'),
@@ -74,7 +74,7 @@ const chartData = computed(() => {
   return {
     labels: priceData.value.labels.map((date: string) => {
       const d = new Date(date);
-      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      return d.toLocaleDateString('pt-BR', { month: 'short', day: 'numeric' });
     }),
     datasets,
   };
@@ -126,7 +126,7 @@ const hasData = computed(() => {
 
 <template>
   <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
-    <h2 class="text-lg font-medium text-gray-900 mb-4">Price Evolution</h2>
+    <h2 class="text-lg font-medium text-gray-900 mb-4">Evolução de Preços</h2>
 
     <div v-if="pending" class="flex justify-center py-8">
       <Icon name="lucide:loader-2" class="h-6 w-6 animate-spin text-gray-400" />
@@ -137,8 +137,8 @@ const hasData = computed(() => {
         name="lucide:trending-up"
         class="h-8 w-8 mx-auto mb-2 text-gray-300"
       />
-      <p>Not enough price history data to display the chart.</p>
-      <p class="text-sm mt-1">Price changes will be tracked over time.</p>
+      <p>Não há histórico de preços suficiente para exibir o gráfico.</p>
+      <p class="text-sm mt-1">As alterações de preço serão rastreadas ao longo do tempo.</p>
     </div>
 
     <div v-else class="h-64">
